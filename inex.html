@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Вдар голову 😅</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #6b8e23;
+        color: #fff;
+        cursor: url("/clok.png"), auto; /* кулак */
+        overflow: hidden;
+      }
+
+      .head {
+        width: 200px;
+        height: 200px;
+        background: url("/c88d50c8f5fe585e-removebg-preview.png") no-repeat
+          center/cover;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.3s ease;
+      }
+
+      #scoreboard {
+        font-size: 24px;
+        margin-top: 20px;
+      }
+
+      #timer {
+        font-size: 20px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Вдар голову 😅</h1>
+    <div class="head" id="head"></div>
+    <div id="scoreboard">Очки: 0</div>
+    <div id="timer">Час: 30</div>
+
+    <audio id="hitSound">
+      <source
+        src="https://www.soundjay.com/button/beep-07.wav"
+        type="audio/wav"
+      />
+    </audio>
+
+    <script>
+      const head = document.getElementById("head");
+      const scoreboard = document.getElementById("scoreboard");
+      const timerEl = document.getElementById("timer");
+      const hitSound = document.getElementById("hitSound");
+
+      let score = 0;
+      let timeLeft = 30; // секунд
+      let level = 1;
+
+      // Функція для випадкового розміщення голови
+      function moveHead() {
+        const maxX = window.innerWidth - head.offsetWidth;
+        const maxY = window.innerHeight - head.offsetHeight;
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+        head.style.left = randomX + "px";
+        head.style.top = randomY + "px";
+      }
+
+      // Клік по голові
+      head.addEventListener("click", () => {
+        score += 1;
+        scoreboard.textContent = `Очки: ${score}`;
+        hitSound.currentTime = 0;
+        hitSound.play();
+
+        // Підвищення рівня складності кожні 5 очок
+        if (score % 5 === 0) {
+          level += 1;
+          moveHead(); // одразу рухаємо голову частіше
+        } else {
+          moveHead();
+        }
+      });
+
+      // Таймер гри
+      const timer = setInterval(() => {
+        timeLeft -= 1;
+        timerEl.textContent = `Час: ${timeLeft}`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          head.remove();
+          alert(`Час вийшов! Твій рахунок: ${score}`);
+        }
+      }, 1000);
+
+      // Додатковий рух голови кожні 1.5 секунди
+      setInterval(() => {
+        moveHead();
+      }, 1500 - level * 100); // швидкість збільшується з рівнем
+
+      // Початкове розміщення
+      moveHead();
+    </script>
+  </body>
+</html>

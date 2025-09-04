@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.box {
+  width: 1440px;
+  background: #222;
+}
+
+.container {
+  display: flex;
+}
+
+.logo {
+  padding-left: 140px;
+  padding-top: 47px;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding-top: 56px;
+  padding-left: 280px;
+}
